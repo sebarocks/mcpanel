@@ -20,9 +20,9 @@ export class MCTime {
     }
 
     addMinute(): void {
-        if(this.minute > 59){
+        if(this.minute >= 59){
             this.minute = 0;
-            if(this.hour > 23){
+            if(this.hour >= 23){
                 this.hour = 0;
             } else{
                 this.hour = this.hour + 1;
