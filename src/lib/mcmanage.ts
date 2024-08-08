@@ -50,7 +50,8 @@ export async function getPlayers() {
     });
 
     if (!response.ok) {
-        throw new Error('Failed to fetch players data');
+        console.error('Failed to fetch players data');
+        return [];
     }
 
     const data = await response.json();
@@ -58,7 +59,7 @@ export async function getPlayers() {
 }
 
 export async function getStatus() {
-    const response = await fetch(API_URL + '/api/status', {
+    const response = await fetch(API_URL + '/status', {
         method: 'GET',
     });
 
@@ -71,7 +72,7 @@ export async function getStatus() {
 }
 
 export async function getIP() {
-    const response = await fetch(API_URL + '/api/IP', {
+    const response = await fetch(API_URL + '/IP', {
         method: 'GET',
     });
 
@@ -89,7 +90,8 @@ export async function getTime() {
     });
 
     if (!response.ok) {
-        throw new Error('Failed to fetch Time data');
+        console.error('Failed to fetch Time data');
+        return null;
     }
 
     const data = await response.json();
