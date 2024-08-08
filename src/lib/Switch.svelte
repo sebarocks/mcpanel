@@ -1,35 +1,36 @@
 <script>
-    export let serverState;
+	import ButtonLoad from './ButtonLoad.svelte';
+    import {PUBLIC_API_URL} from '$env/static/public';
+	export let serverState;
 
-    let status = serverState.status;
-    
+	let status = serverState.status;
+
+	let isLoading = false;
+
+	async function handleSubmit() {
+		isLoading = true;
+
+		try {
+            const response = await fetch(PUBLIC_API_URL + '/pb/start', {
+                method: 'POST',
+                credentials: 'include'
+            });
+			var data = await response.json();
+		} catch (error) {
+			console.log(error);
+		} finally {
+			isLoading = false;
+            console.log(data);
+		}
+	}
 </script>
 
-
 <section class="centred col pb-3rem full-width">
-
-    {#if status=="running"}
-
-        <div id="form-encendido" class="full-width server-form" >
-            <button class="full-width font-white bg-red p-3 rounded transparent-input centred" type="submit">
-                <span id="spanTextTurnOnOff" class="font-1 mb-minus5px is-size-6">Apagar</span>
-            </button>
-        </div>
-
-    {:else if status=="stopped"}
-
-        <div id="form-apagado" class="full-width server-form">
-
-            <button class="full-width font-white bg-green p-3 rounded transparent-input centred" type="submit">
-                <span id="spanTextTurnOnOff" class="font-1 mb-minus5px is-size-6">Encender</span>
-            </button>
-        </div>
-
-    {:else}
-
-        <p id="form-other" class="server-form" >No hay accion disponible</p>
-
-    {/if}
-    
+	{#if status == 'stopped'}
+		<div id="form-apagado" class="full-width server-form">
+			<ButtonLoad bind:loading={isLoading} on:click={handleSubmit} color="bg-green">
+				<span id="spanTextTurnOnOff" class="font-1 mb-minus5px is-size-6">Encender</span>
+			</ButtonLoad>
+		</div>
+	{/if}
 </section>
-

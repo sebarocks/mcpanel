@@ -26,9 +26,9 @@
 
 		<ServerInfo {serverState}/>
 
-		<!-- <Switch {serverState} /> -->
+		<Switch {serverState} />
 		
-		{#if players}
+		{#if players && serverState.status == "running"}
 		<PlayerList players={players} />
 		{/if}
 
