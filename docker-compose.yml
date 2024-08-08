@@ -1,0 +1,5 @@
+services:
+  mcpanel:
+    build: .
+    ports:
+      - "8173:3000"

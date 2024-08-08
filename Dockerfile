@@ -1,27 +1,19 @@
 # Build the first stage with alpine node image and name as build
-FROM node:18-alpine3.17 AS build
-
-RUN apk update && apk upgrade && adduser -D svelteuser
-USER svelteuser
+FROM node:20-alpine3.19 AS build
 
 WORKDIR /app
+COPY package*.json .
+RUN npm ci
+COPY . .
+RUN npm run build
+RUN npm prune --production
 
-COPY --chown=svelteuser:svelteuser . /app
-
-RUN npm install && npm run build
-
-
-FROM node:18-alpine3.17
-
-RUN apk update && apk upgrade && apk add dumb-init && adduser -D svelteuser
-USER svelteuser
+FROM node:20-alpine3.19
 
 WORKDIR /app
-
-COPY --chown=svelteuser:svelteuser --from=build /app/dist /app/package.json ./
-
-EXPOSE 8080
-
-ENV HOST=0.0.0.0 PORT=8080 NODE_ENV=production
-
-CMD ["dumb-init","node","index.js"]
+COPY --from=builder /app/build build/
+COPY --from=builder /app/node_modules node_modules/
+COPY package.json .
+EXPOSE 3000
+ENV NODE_ENV=production
+CMD [ "node", "build" ]

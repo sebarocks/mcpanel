@@ -3,7 +3,6 @@ import { getPlayers, getStatus, getIP, getTime } from "$lib/mcmanage";
 
 export const load = async ({locals}) => {
     if(!locals.pb.authStore.isValid) {
-        console.log(locals.pb.authStore);
         return redirect(303,'/login');
     }
 
