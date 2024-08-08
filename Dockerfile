@@ -1,5 +1,5 @@
 # Build the first stage with alpine node image and name as build
-FROM node:20-alpine3.19 AS build
+FROM node:20-alpine3.19 AS builder
 
 WORKDIR /app
 COPY package*.json .

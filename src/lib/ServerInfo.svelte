@@ -4,7 +4,7 @@
     import ServerTime from './ServerTime.svelte';
     export let serverState;
     // mostrar ip o dominio
-    const IP_MODE = false;
+    const IP_MODE = true;
 
 
 </script>
