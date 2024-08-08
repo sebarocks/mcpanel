@@ -1,20 +1,27 @@
-FROM node:20-slim AS base
+# Build the first stage with alpine node image and name as build
+FROM node:18-alpine3.17 AS build
 
-# Install pnpm
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-COPY . /app
+RUN apk update && apk upgrade && adduser -D svelteuser
+USER svelteuser
+
 WORKDIR /app
 
-FROM base AS prod-deps
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
+COPY --chown=svelteuser:svelteuser . /app
 
-FROM base AS build
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
-RUN pnpm run build
+RUN npm install && npm run build
 
-FROM base
-COPY --from=prod-deps /app/node_modules /app/node_modules
-COPY --from=build /app/dist /app/dist
-EXPOSE 3000
-CMD [ "pnpm", "start" ].
+
+FROM node:18-alpine3.17
+
+RUN apk update && apk upgrade && apk add dumb-init && adduser -D svelteuser
+USER svelteuser
+
+WORKDIR /app
+
+COPY --chown=svelteuser:svelteuser --from=build /app/dist /app/package.json ./
+
+EXPOSE 8080
+
+ENV HOST=0.0.0.0 PORT=8080 NODE_ENV=production
+
+CMD ["dumb-init","node","index.js"]
