@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from "svelte";
-    import { MCTime, parseTime } from "./mctime";
-	import { PUBLIC_API_URL } from "$env/static/public";
+    import { MCTime } from "./mctime";
+	import { getTime } from "./mcmanage-client";
 
 // componente que recibe hora y empieza a mover el reloj a 0.7x
 // cada 30 segundos reales sincroniza con API
@@ -9,7 +9,13 @@
 export let hour : number
 export let minute : number
 
+let show = hour != undefined;
 let mctime = new MCTime(hour,minute);
+let daylightEmoji = emoji(mctime.daylight);
+
+function emoji(daylight : boolean){
+    return daylight ? '☀️' : '🌌';
+}
 
 function passMinute() {
         mctime.addMinute();
@@ -18,26 +24,23 @@ function passMinute() {
     }
 
 async function updateTime(){
-    const response = await fetch(PUBLIC_API_URL + '/time', {
-        method: 'GET',
-    });
+    const time = await getTime();
 
-    if (!response.ok) {
-        console.error('Failed to fetch Time data');
-        return null;
+    if (time == null) {
+        show = false;
+        return;
     }
-
-    const data = await response.json();
-    mctime.update(data.tick);    
+    mctime.update(time.tick);
+    daylightEmoji = emoji(mctime.daylight) 
 }
 
 onMount(() => {
     setInterval(passMinute, 833);
-    setInterval(updateTime,10000);
+    setInterval(updateTime, 10000);
 })
 
 </script>
 
-{#if hour != undefined}
-    {hour.toString().padStart(2, '0')}:{minute.toString().padStart(2, '0')}
+{#if show}
+    <div> Hora del Juego: {daylightEmoji} {hour.toString().padStart(2, '0')}:{minute.toString().padStart(2, '0')} </div>
 {/if}

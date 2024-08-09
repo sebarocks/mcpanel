@@ -68,7 +68,7 @@ export async function getStatus() {
     }
 
     const data = await response.json();
-    return data;
+    return data.instanceState;
 }
 
 export async function getIP() {

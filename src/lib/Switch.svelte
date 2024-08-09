@@ -1,9 +1,8 @@
 <script>
 	import ButtonLoad from './ButtonLoad.svelte';
     import {PUBLIC_API_URL} from '$env/static/public';
-	export let serverState;
 
-	let status = serverState.status;
+	export let serverStatus;
 
 	let isLoading = false;
 
@@ -16,9 +15,12 @@
                 credentials: 'include'
             });
 			var data = await response.json();
-		} catch (error) {
+		} 
+		catch (error) {
 			console.log(error);
-		} finally {
+			isLoading = false;
+		} 
+		finally {
 			isLoading = false;
             console.log(data);
 		}
@@ -26,7 +28,7 @@
 </script>
 
 <section class="centred col pb-3rem full-width">
-	{#if status == 'stopped'}
+	{#if serverStatus == 'stopped'}
 		<div id="form-apagado" class="full-width server-form">
 			<ButtonLoad bind:loading={isLoading} on:click={handleSubmit} color="bg-green">
 				<span id="spanTextTurnOnOff" class="font-1 mb-minus5px is-size-6">Encender</span>
