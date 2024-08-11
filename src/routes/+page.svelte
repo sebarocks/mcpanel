@@ -28,7 +28,7 @@
 	<article class="blurred-white rounded centred col p-3 mw-450">
 		<PlayerInfo user={user}/>
 
-		<ServerInfo status={serverStatus} serverIp={data.ip} time={data.serverTime} />
+		<ServerInfo status={serverStatus} serverIp={serverIp} time={data.serverTime} />
 
 		<Switch {serverStatus} />
 		

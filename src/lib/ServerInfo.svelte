@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { PUBLIC_SERVER_IP } from '$env/static/public';
+	import { PUBLIC_SERVER_IP, PUBLIC_MAP_URL } from '$env/static/public';
 	import { estado } from './estado';
 	import ServerTime from './ServerTime.svelte';
 	import { toast } from '@zerodevx/svelte-toast';
@@ -35,6 +35,8 @@
 	{:else}
 		<h3>URL: <span id="url-server">{PUBLIC_SERVER_IP}</span></h3>
 	{/if}
+
+	<h3>🌎️<a href="{PUBLIC_MAP_URL}">Mapa </a></h3>
 
 	{#if time != null}
 		<h3>
