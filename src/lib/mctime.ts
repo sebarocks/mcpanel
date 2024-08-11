@@ -8,12 +8,12 @@ export class MCTime {
         this.hour = hour;
         this.minute = minute;
 
-        this.tick = ((hour - 6) % 24) * 1000 + (minute * 6) / 100;
+        this.tick = ( ((hour - 6) % 24) * 1000 + (minute * 6) / 100 ) % 24000;
         this.daylight = this.tick < 13700;
     }
 
     reCalculateTick() {
-        this.tick = ((this.hour - 6) % 24) * 1000 + (this.minute * 6) / 100;
+        this.tick = ( ((this.hour - 6) % 24) * 1000 + (this.minute * 6) / 100 ) % 24000;
         this.daylight = this.tick < 13700;
     }
 
