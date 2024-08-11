@@ -23,6 +23,9 @@
 
 </script>
 
+<svelte:head>
+    <title>MCPanel</title> 
+</svelte:head>
 
 <main class="centred mt-50">
 	<article class="blurred-white rounded centred col p-3 mw-450">
