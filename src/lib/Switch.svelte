@@ -1,6 +1,7 @@
 <script>
 	import ButtonLoad from './ButtonLoad.svelte';
     import {PUBLIC_API_URL} from '$env/static/public';
+	import { toast } from '@zerodevx/svelte-toast';
 
 	export let serverStatus;
 
@@ -19,10 +20,13 @@
 		catch (error) {
 			console.log(error);
 			isLoading = false;
+			toast.push('Error en la solicitud de encendido de servidor.')
+			
 		} 
 		finally {
 			isLoading = false;
             console.log(data);
+			toast.push('Solicitud de encender servidor enviada.', { duration: 1500 })
 		}
 	}
 </script>

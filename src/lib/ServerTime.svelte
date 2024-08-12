@@ -12,7 +12,6 @@ export let minute : number
 let show = hour != undefined;
 let mctime = new MCTime(hour,minute);
 let daylightEmoji = emoji(mctime.daylight);
-console.log(mctime);
 
 function emoji(daylight : boolean){
     return daylight ? '☀️' : '🌌';

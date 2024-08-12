@@ -29,7 +29,7 @@
 
 <main class="centred mt-50">
 	<article class="blurred-white rounded centred col p-3 mw-450">
-		<PlayerInfo user={user}/>
+		<PlayerInfo user={user}/>		
 
 		<ServerInfo status={serverStatus} serverIp={serverIp} time={data.serverTime} />
 
