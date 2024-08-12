@@ -38,7 +38,9 @@
 		<h3>URL: <span id="url-server">{PUBLIC_SERVER_IP}</span></h3>
 	{/if}
 
-	<h3>🌎️<a href="{PUBLIC_MAP_URL}">Mapa </a></h3>
+	{#if status == 'running'}
+		<h3>🌎️<a href="{PUBLIC_MAP_URL}">Mapa </a></h3>
+	{/if}	
 
 	{#if time != null}
 		<h3>

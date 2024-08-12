@@ -1,6 +1,6 @@
 import { error, redirect } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { env } from '$env/dynamic/private';
+import { REDIRECT_URL } from '$env/static/private';
 
 export const GET: RequestHandler = async ({ locals, url, cookies }) => {
 	
@@ -16,10 +16,10 @@ export const GET: RequestHandler = async ({ locals, url, cookies }) => {
             provider.name,
             url.searchParams.get('code') || '',
             provider.codeVerifier,
-            env.REDIRECT_URL + provider.name
+            REDIRECT_URL + provider.name
         )        
     } catch (err) {
-		console.error(error);
+		console.error(err);
         return redirect(303, '/login?fail=true');
 	} 
 
