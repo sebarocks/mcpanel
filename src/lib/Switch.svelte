@@ -24,7 +24,6 @@
 			
 		} 
 		finally {
-			isLoading = false;
             console.log(data);
 			toast.push('Solicitud de encender servidor enviada.', { duration: 1500 })
 		}
